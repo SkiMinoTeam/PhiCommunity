@@ -52,9 +52,8 @@ jobs:
 
       - name: Trigger APP CI Build
         run: |
-          commitMsg=`cat /home/runner/work/_temp/_github_workflow/event.json | jq -r '.commits[0].message'`;
           curl 'https://api.github.com/repos/HanHan233/PhiCommunityAPP/dispatches' --request POST \
             -H 'Accept: application/vnd.github.v3+json' \
             -H 'Content-Type: application/json' \
             -H 'Authorization: Bearer ${{ secrets.GH_TOKEN }}' \
-            --data-raw '{"event_type": "CI Build: '$commitMsg'"}'
+            --data-raw '{"event_type": "CI Build triggered by Repo:PhiCommunity"}'
