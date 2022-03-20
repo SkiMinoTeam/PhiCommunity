@@ -93,5 +93,10 @@ jobs:
           password: ${{ secrets.DEPLOY_PASSWORD2 }}
           localDir: dist
           remoteDir: htdocs
-          
+
+      - name: Static gh-pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GH_TOKEN }}
+          publish_dir: ./dist
 
