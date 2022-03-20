@@ -73,9 +73,9 @@ jobs:
             name: PhiCommunity-Nodejs
             path: dist
             
-      - name: Wait 1min
+      - name: Wait Clean Host
         run: |
-          sleep 60
+          sleep 45
           
       - name: Deploy to StarXN
         uses: hsimah/ftp-action@v2.0.0
