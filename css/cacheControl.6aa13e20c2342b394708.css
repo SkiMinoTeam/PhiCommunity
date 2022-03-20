@@ -97,7 +97,7 @@ div.avatarBar::after {
 	z-index: 10;
 }
 div.avatarBar > div.avatar {
-	--avatar: url(../assets/Avatar.cdd7.svg);
+	--avatar: url(../assets/Avatar.400d.svg);
 	height: 100%;
 	width: 100px;
 	background: var(--avatar) no-repeat center center;
@@ -125,108 +125,103 @@ div.avatarBar > div.avatar::after {
 }
 
 html {
-	background: #000;
-	color: #fff;
+	background: url(../assets/ElementSqare.Half.Size.f7ec.webp) center center
+		no-repeat fixed;
 	background-size: cover;
 	box-sizing: border-box;
 	height: 100%;
-	overflow: hidden;
-}
-body {
-	display: flex;
-	height: 100%;
-	margin: 0;
-	padding: 0;
 	width: 100%;
+	backdrop-filter: blur(15px) brightness(0.5) contrast(0.5);
+	overflow: hidden;
+	display: flex;
 	justify-content: center;
 	align-items: center;
 	flex-direction: column;
-	z-index: 0;
 }
-
-div.trigger {
-	position: fixed;
-	top: 0;
-	left: 0;
+html::before {
+	content: '';
+	position: absolute;
 	height: 100vh;
 	width: 100vw;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	background: url(../assets/ElementSqare.Half.Size.f7ec.webp) no-repeat center
+		center fixed;
+	background-size: cover;
+	filter: blur(10px) brightness(0.5);
+	z-index: -1;
+}
+div.main {
+	height: 70vh;
+	width: 85vw;
 	display: flex;
-	flex-direction: column;
-	justify-content: center;
 	align-items: center;
-	background: #000;
-	/* z-index: 1; */
+	flex-direction: column;
+	overflow-x: scroll;
+	z-index: 0;
+	background: #fff;
+	min-width: 320px;
+	min-height: 480px;
 }
-div.trigger > img.title {
-	height: 20%;
-	width: auto;
-	max-width: 80%;
-	object-fit: scale-down;
+div#container {
+	width: 80%;
 }
-div.trigger.fadeout {
-	animation: fadeOut 0.8s ease-in-out;
-	opacity: 0;
+div#container > div.item::before {
+	order: 0;
+	width: 10%;
+	content: attr(data-file-name);
+	margin-right: 0 50px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
 }
-@keyframes fadeOut {
-	0% {
-		opacity: 1;
-	}
-	100% {
-		opacity: 0;
-	}
+div#container > div.item::after {
+	order: 1;
+	width: calc(90% - 48px);
+	display: flex;
+	justify-content: flex-start;
+	align-items: flex-start;
+	content: attr(data-url);
+	margin: 0 50px;
 }
-div.trigger > div.tapToStart {
-	margin: 30px;
-	letter-spacing: 1.1em;
-	animation: letterSpacingStretchAnim 6s linear infinite;
+div#container > div.item > .deleteBtn {
+	order: 2;
+	width: 48px;
+	text-align: center;
+	outline: none;
+	cursor: pointer;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
 }
-@keyframes letterSpacingStretchAnim {
-	0% {
-		letter-spacing: 1.1em;
-	}
-	50% {
-		letter-spacing: 1.2em;
-	}
-	100% {
-		letter-spacing: 1.1em;
-	}
-}
-div#main {
-	height: 100%;
+div#container > div.item {
 	width: 100%;
 	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
 	align-items: center;
-	flex-direction: column;
-	scrollbar-width: none;
-	position: fixed;
-	top: 0;
-	left: 0;
-	--topSize: 100vh;
-	margin-top: var(--topSize);
-}
-::-webkit-scrollbar {
-	display: none;
+	color: #000;
+	text-decoration: none;
+	margin: 5px 0;
 }
 
-pre {
-	text-align: center;
-	line-height: 1.5em;
-}
-pre.fromGameDirector {
-	text-align: center;
-	line-height: 2.2em;
-}
-div.clickToExitTag {
-	position: fixed;
-	top: 0;
-	left: 0;
-	margin: 15px;
-	opacity: 0;
-	transition: all 0.3s ease-in-out;
-}
-div.thanksAllHelpers,
-div.thankYou {
-	margin-top: 20%;
-	margin-bottom: 20%;
+@media screen and (max-width: 576px) {
+	div#container > div.item::before {
+		order: 0;
+		width: calc(100% - 48px);
+		content: attr(data-file-name);
+		margin-right: 0 50px;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		overflow: hidden;
+	}
+	div#container > div.item::after {
+		display: none;
+	}
+	div#container > div.item > .deleteBtn {
+		width: 48px;
+	}
 }
 

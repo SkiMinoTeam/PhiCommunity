@@ -97,7 +97,7 @@ div.avatarBar::after {
 	z-index: 10;
 }
 div.avatarBar > div.avatar {
-	--avatar: url(../assets/Avatar.cdd7.svg);
+	--avatar: url(../assets/Avatar.400d.svg);
 	height: 100%;
 	width: 100px;
 	background: var(--avatar) no-repeat center center;
@@ -125,92 +125,107 @@ div.avatarBar > div.avatar::after {
 }
 
 html {
-	background: url(../assets/ElementSqare.Half.Size.f7ec.webp) center center
-		no-repeat fixed;
-	background-size: cover;
-	box-sizing: border-box;
-	height: 100%;
-	backdrop-filter: blur(15px) brightness(0.5) contrast(0.5);
-	overflow: hidden;
-}
-html::before {
-	content: '';
-	position: absolute;
-	height: 100vh;
-	width: 100vw;
-	top: 0;
-	left: 0;
-	bottom: 0;
-	right: 0;
 	background: url(../assets/ElementSqare.Half.Size.f7ec.webp) no-repeat
 		center center fixed;
 	background-size: cover;
-	filter: blur(10px) brightness(0.5);
-	z-index: -1;
 }
-div.fadeIn {
-	height: 100vh;
-	width: 100vw;
-	background-color: #000;
-	position: fixed;
-	top: 0;
-	left: 0;
-	z-index: 999;
-	animation: fadeIn 0.6s ease-out;
-}
-@keyframes fadeIn {
-	0% {
-		opacity: 0;
-	}
-}
+html,
 body {
-	display: flex;
+	/* display: flex;
+	align-items: center; */
 	height: 100%;
-	margin: 0;
-	padding: 0;
 	width: 100%;
-	justify-content: center;
-	align-items: center;
-	flex-direction: column;
+	box-sizing: border-box;
+	overflow: hidden;
+	/* transition: all 0.5s ease-out; */
+}
+#body {
+	--gamma: 0;
+	--translate-x: calc(-2px * var(--gamma) / 180 * 30);
+	transform: translateX(var(--translate-x));
+}
+div.blackBoard {
+	width: 100%;
+	height: 80%;
+	background: url(../assets/showgirl_Half.b325.png) no-repeat bottom left;
+	background-size: contain;
+	position: fixed;
+	transition: all 0.3s ease;
+	bottom: 0;
+	left: 10%;
 	z-index: 0;
 }
-img.title {
-	height: 20%;
-	width: auto;
-	max-width: 80%;
-	object-fit: scale-down;
-}
-div.tapToStart {
-	margin: 30px;
-	color: #fff;
-	animation: flash 5s ease infinite;
-}
-@keyframes flash {
-	40% {
-		opacity: 0.3;
-	}
-	60% {
-		opacity: 1;
-	}
-}
-div.info {
+div.mainActivityArea {
+	height: 80%;
+	width: 40%;
 	position: fixed;
-	bottom: 0;
-	color: #fff;
+	right: 5%;
+	bottom: 10%;
+	margin: 0;
+	padding: 0;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+	z-index: 1;
 }
-/* 
-canvas#bubbles {
-	pointer-events: none;
-	position: fixed;
-	top: 0;
-	left: 0;
+
+div#startToPlayBtn,
+div#cacheControl {
 	width: 100%;
+	height: 60%;
+	background-size: contain;
+	font-size: 3rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-bottom: 5% !important;
+	overflow: hidden;
+}
+div#startToPlayBtn,
+div#cacheControl,
+div.buttomLayer > div {
+	border-radius: 10px;
+	cursor: pointer;
+	color: #fff;
+	background: linear-gradient(to right, #0173ffd7, #588de4d7);
+	backdrop-filter: blur(10px);
+	box-shadow: 0 0 10px 0 #0173fff7;
+}
+
+div.buttomLayer {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+	height: 35%;
+}
+div.buttomLayer > div {
 	height: 100%;
-	z-index: 2;
-} 
-*/
+	width: 45%;
+	font-size: 2rem;
+	overflow: hidden;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+@media screen and (max-width: 576px) {
+	body {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		margin: 0;
+		padding: 0;
+	}
+	div.blackBoard {
+		display: none;
+	}
+	div.mainActivityArea {
+		width: 95%;
+		margin: 0;
+		padding: 0;
+		position: unset;
+	}
+}
 

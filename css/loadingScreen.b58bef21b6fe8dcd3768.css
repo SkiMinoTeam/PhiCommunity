@@ -97,7 +97,7 @@ div.avatarBar::after {
 	z-index: 10;
 }
 div.avatarBar > div.avatar {
-	--avatar: url(../assets/Avatar.cdd7.svg);
+	--avatar: url(../assets/Avatar.400d.svg);
 	height: 100%;
 	width: 100px;
 	background: var(--avatar) no-repeat center center;
@@ -124,108 +124,86 @@ div.avatarBar > div.avatar::after {
 	transform: skew(-15deg) translateX(10px);
 }
 
-html {
-	background: url(../assets/ElementSqare.Half.Size.f7ec.webp) no-repeat
-		center center fixed;
-	background-size: cover;
-}
 html,
 body {
-	/* display: flex;
-	align-items: center; */
+	box-sizing: border-box;
 	height: 100%;
 	width: 100%;
-	box-sizing: border-box;
-	overflow: hidden;
-	/* transition: all 0.5s ease-out; */
-}
-#body {
-	--gamma: 0;
-	--translate-x: calc(-2px * var(--gamma) / 180 * 30);
-	transform: translateX(var(--translate-x));
-}
-div.blackBoard {
-	width: 100%;
-	height: 80%;
-	background: url(../assets/showgirl_Half.b325.png) no-repeat bottom left;
-	background-size: contain;
-	position: fixed;
-	transition: all 0.3s ease;
-	bottom: 0;
-	left: 10%;
-	z-index: 0;
-}
-div.mainActivityArea {
-	height: 80%;
-	width: 40%;
-	position: fixed;
-	right: 5%;
-	bottom: 10%;
 	margin: 0;
 	padding: 0;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	z-index: 1;
 }
-
-div#startToPlayBtn,
-div#cacheControl {
-	width: 100%;
-	height: 60%;
-	background-size: contain;
-	font-size: 3rem;
+body {
+	background: url(../assets/ElementSqare.Half.Size.f7ec.webp) center center
+		no-repeat fixed;
+	background-size: cover !important;
+	backdrop-filter: blur(1px);
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	margin-bottom: 5% !important;
-	overflow: hidden;
-}
-div#startToPlayBtn,
-div#cacheControl,
-div.buttomLayer > div {
-	border-radius: 10px;
-	cursor: pointer;
 	color: #fff;
-	background: linear-gradient(to right, #0173ffd7, #588de4d7);
-	backdrop-filter: blur(10px);
-	box-shadow: 0 0 10px 0 #0173fff7;
 }
-
-div.buttomLayer {
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-	align-items: center;
-	width: 100%;
-	height: 35%;
+body::before {
+	content: '';
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: url(../assets/ElementSqare.Half.Size.f7ec.webp) center center
+		no-repeat fixed;
+	background-size: cover;
+	filter: blur(1px);
+	z-index: -1;
 }
-div.buttomLayer > div {
-	height: 100%;
-	width: 45%;
-	font-size: 2rem;
+div.tip::before {
+	content: 'Tip: ';
+}
+div.tip {
+	color: #000;
+	position: fixed;
+	left: 2%;
+	bottom: 5%;
+	text-shadow: 0 0 5px #000;
+}
+div.loadingBar {
+	position: fixed;
+	right: 2%;
+	bottom: 5%;
 	overflow: hidden;
-	display: flex;
-	justify-content: center;
-	align-items: center;
 }
-@media screen and (max-width: 576px) {
-	body {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		margin: 0;
-		padding: 0;
+div.loadingBarTxT {
+	color: #000;
+	z-index: 999;
+	animation: loadingBarTXTAnim 1s ease-in-out infinite;
+	text-shadow: 0 0 10px #000;
+}
+div.loadingBarBG {
+	position: absolute;
+	left: 0;
+	top: 0;
+	height: 100%;
+	width: 100%;
+	z-index: -1;
+	background-color: #fff;
+	animation: loadingBarBGAnim 1s ease-in-out infinite;
+}
+@keyframes loadingBarBGAnim {
+	0% {
+		left: -100%;
 	}
-	div.blackBoard {
-		display: none;
+	100% {
+		left: 200%;
 	}
-	div.mainActivityArea {
-		width: 95%;
-		margin: 0;
-		padding: 0;
-		position: unset;
+}
+@keyframes loadingBarTXTAnim {
+	0% {
+		color: #fff;
+	}
+	50% {
+		color: #000;
+	}
+	100% {
+		color: #fff;
 	}
 }
 
