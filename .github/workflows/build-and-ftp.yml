@@ -1,0 +1,97 @@
+name: Build and Deploy to Host
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  clean-host-cache:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: StarXN
+        uses: StephanThierry/ftp-delete-action@v2.1
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          user: ${{ secrets.DEPLOY_USER }}
+          password: ${{ secrets.DEPLOY_PASSWORD }}
+          remoteDirectories: wwwroot
+      - name: InfinityFree
+        uses: StephanThierry/ftp-delete-action@v2.1
+        with:
+          host: ${{ secrets.DEPLOY_HOST2 }}
+          user: ${{ secrets.DEPLOY_USER2 }}
+          password: ${{ secrets.DEPLOY_PASSWORD2 }}
+          remoteDirectories: htdocs
+
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Source
+        uses: actions/checkout@v2
+        with:
+          ref: main
+      
+      - name: Refactor Assets
+        run: |
+          sed -i "s/charts.phicommunity.com.cn/charts-phicommunity.xmdisk.ga/g" `grep charts.phicommunity.com.cn -rl ./`
+          rm -rf ./assets/images/Avatar.svg
+          wget https://drv.lolimstatic.ml/drive2/PhiCommunity/Avatar.svg
+          mv ./Avatar.svg  ./assets/images/
+          
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '17'
+
+      - name: Setup Cache
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          # npm cache files are stored in `~/.npm` on Linux/macOS
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+      - name: Setup Webpack & Install Dependences
+        run: |
+          npm install webpack-cli webpack -g
+          npm install
+          
+      - name: Build
+        run: |
+          npm run build
+          
+      - name: Upload Artchive
+        uses: actions/upload-artifact@v3.0.0
+        with:
+            name: PhiCommunity-Nodejs
+            path: dist
+            
+      - name: Wait 1min
+        run: |
+          sleep 60
+          
+      - name: Deploy to StarXN
+        uses: hsimah/ftp-action@v2.0.0
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          user: ${{ secrets.DEPLOY_USER }}
+          password: ${{ secrets.DEPLOY_PASSWORD }}
+          localDir: dist
+          remoteDir: wwwroot 
+      - name: Deploy to InfinityFree
+        uses: hsimah/ftp-action@v2.0.0
+        with:
+          host: ${{ secrets.DEPLOY_HOST2 }}
+          user: ${{ secrets.DEPLOY_USER2 }}
+          password: ${{ secrets.DEPLOY_PASSWORD2 }}
+          localDir: dist
+          remoteDir: htdocs
+          
+
