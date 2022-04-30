@@ -1499,19 +1499,11 @@ btnPause.addEventListener('click', function () {
 		curTime = timeBgm;
 		while (stopPlaying.length) stopPlaying.shift()();
 	} else {
-		document.querySelector('div#pauseOverlay.pauseOverlay').innerHTML = '3';
+		document.querySelector('div#pauseOverlay.pauseOverlay').innerHTML = '<div class="resumeText"></div>';
 		document
 			.querySelector('div#pauseOverlay.pauseOverlay')
 			.classList.add('readyToResume');
-		setTimeout(() => {
-			document.querySelector('div#pauseOverlay.pauseOverlay').innerHTML =
-				'2';
-		}, 1000);
-		setTimeout(() => {
-			document.querySelector('div#pauseOverlay.pauseOverlay').innerHTML =
-				'1';
-		}, 2000);
-		setTimeout(() => {
+		const resumeTimeOut=setTimeout(() => {
 			document
 				.querySelector('div#pauseOverlay.pauseOverlay')
 				.classList.remove('visable');
@@ -1544,6 +1536,7 @@ btnPause.addEventListener('click', function () {
 			if(localStorage.getItem('useBGABG')=='true'&&window.chartMetadata.backgroundAnimation!=undefined){
 				document.querySelector('video#bgaVideo').play();
 			}
+			clearTimeout(resumeTimeOut);
 		}, 3000);
 	}
 });
@@ -1596,7 +1589,7 @@ function loop() {
 	ctx.textAlign = 'right';
 	ctx.textBaseline = 'middle';
 	ctx.fillText(
-		'PhiCommunity By lchzh3473 & HanHan233',
+		'PhiCommunity By lchzh3473 & Yuameshi',
 		(canvas.width + canvasos.width) / 2 - lineScale * 0.1,
 		canvas.height - lineScale * 0.3
 	);
@@ -3015,14 +3008,20 @@ document
 	.addEventListener('click', async function () {
 		if(localStorage.getItem('useBGABG')=='true'&&window.chartMetadata.backgroundAnimation!=undefined){
 			setTimeout(()=>{
+				document.querySelector('video#bgaVideo').currentTime=0;
 				document.querySelector('video#bgaVideo').play();
-				const updateBGAInterval=setInterval(()=>{
-					createImageBitmap(document.querySelector('video#bgaVideo'))
-						.then(img=>Renderer.bgImage=img);
-					createImageBitmap(imgBlur(Renderer.bgImage)).then((imgBlur) => {
-						Renderer.bgImageBlur = imgBlur;
-					});
-				},50);
+				const updateBGAInterval = setInterval(() => {
+					createImageBitmap(
+						document.querySelector('video#bgaVideo')
+					).then((img) => (Renderer.bgImage = img));
+					document.getElementById('imageBlur').checked
+						? createImageBitmap(imgBlur(Renderer.bgImage)).then(
+								(imgBlur) => {
+									Renderer.bgImageBlur = imgBlur;
+								}
+						)
+						: undefined;
+				}, 50);
 				document.querySelector('video#bgaVideo').addEventListener('ended',()=>{
 					clearInterval(updateBGAInterval);
 				});

@@ -1,17 +1,17 @@
 import './style.redirect.css';
 window.addEventListener('DOMContentLoaded', () => {
-	fetch('https://api.github.com/repos/HanHan233/PhiCommunity/commits')
+	fetch('https://api.github.com/repos/Yuameshi/PhiCommunity/commits')
 		.then((res) => res.json())
 		.then((data) => {
 			const changeLogFrame = document.querySelector(
 				'div#changelogContainer'
 			);
-			data.forEach((commit) => {
+			data.forEach(({ commit, html_url, sha }) => {
 				const item = document.createElement('a');
 				item.classList.add('item');
-				item.href = commit.html_url;
-				item.setAttribute('data-sha', commit.sha.slice(0, 7));
-				item.innerText = commit.commit.message;
+				item.href = html_url;
+				item.setAttribute('data-sha', sha.slice(0, 7));
+				item.innerText = commit.message;
 				changeLogFrame.appendChild(item);
 			});
 		});
@@ -20,10 +20,10 @@ window.addEventListener('DOMContentLoaded', () => {
 	window.addEventListener('beforeinstallprompt', (e) => {
 		e.preventDefault();
 		addBtn.style.display = 'unset';
-		addBtn.addEventListener('click', () => {
-			e.prompt();
-			e.userChoice.then((choiceResult) => {
-				if (choiceResult.outcome === 'accepted') {
+		addBtn.addEventListener('click', ({ prompt, userChoice }) => {
+			prompt();
+			userChoice.then(({ outcome }) => {
+				if (outcome === 'accepted') {
 					console.log('准备添加到主屏幕');
 				} else {
 					console.log('用户拒绝了添加到主屏幕');
@@ -58,19 +58,19 @@ window.addEventListener('DOMContentLoaded', () => {
 		document.querySelector('button#gotoGHPages').style.display = 'none';
 	}
 	document.querySelector('button#ghRepo').addEventListener('click', () => {
-		window.open('https://github.com/HanHan233/PhiCommunity');
+		window.open('https://github.com/Yuameshi/PhiCommunity');
 	});
 	document.querySelector('button#deviceReq').addEventListener('click', () => {
 		document
-			.querySelector('div#devRequirementPopupoverlay')
+			.querySelector('div#devRequirementPopupOverlay')
 			.classList.add('show');
 	});
 	document
-		.querySelector('div#devRequirementPopupoverlay')
+		.querySelector('div#devRequirementPopupOverlay')
 		.addEventListener('click', (e) => {
-			if (e.target != document.querySelector('#devReq')) {
+			if (e.target !== document.querySelector('#devReq')) {
 				document
-					.querySelector('div#devRequirementPopupoverlay')
+					.querySelector('div#devRequirementPopupOverlay')
 					.classList.remove('show');
 			}
 		});
@@ -82,7 +82,7 @@ window.addEventListener('DOMContentLoaded', () => {
 	document
 		.querySelector('div#changeLogContainerPopupOverlay')
 		.addEventListener('click', (e) => {
-			if (e.target != document.querySelector('#changelogContainer')) {
+			if (e.target !== document.querySelector('#changelogContainer')) {
 				document
 					.querySelector('div#changeLogContainerPopupOverlay')
 					.classList.remove('show');
@@ -96,7 +96,7 @@ window.addEventListener('DOMContentLoaded', () => {
 	document
 		.querySelector('div#ContactUsPopupOverlay')
 		.addEventListener('click', (e) => {
-			if (e.target != document.querySelector('#ContactUs')) {
+			if (e.target !== document.querySelector('#ContactUs')) {
 				document
 					.querySelector('div#ContactUsPopupOverlay')
 					.classList.remove('show');
